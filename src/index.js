@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <h1>Hey this is san!</h1>
   </React.StrictMode>,
   document.getElementById('root')
 );
