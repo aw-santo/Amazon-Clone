@@ -4,7 +4,9 @@ import './Home.css'
 function Home() {
   return (
     <div className='home'>
-        Home
+        <div className="home-container">
+            <img className='home-image' src="https://m.media-amazon.com/images/I/61pxhbXv8tL._SX3000_.jpg" alt="" srcset="" />
+        </div>
     </div>
   )
 }
