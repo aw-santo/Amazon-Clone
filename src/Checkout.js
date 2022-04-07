@@ -7,7 +7,7 @@ import CheckoutProduct from "./CheckoutProduct";
 function Checkout() {
 
   // eslint-disable-next-line
-  const [{basket}, dispatch] = useStateValue();
+  const [{basket, user}, dispatch] = useStateValue();
 
   return (
     <div className="checkout">
@@ -19,6 +19,7 @@ function Checkout() {
         />
 
         <div>
+          <h3>Hello, {user?.email.substring(0, 6)}</h3>
           <h2 className="checkout-title">Your Shopping Cart</h2>
 
           {basket.map(item => (
