@@ -36,7 +36,7 @@ function Header() {
       <div className="header-nav">
         <Link to={ !user && '/login'}>
           <div className="header-option" onClick={handleAuth}>
-            <span className="header-optionLineOne"> Hello, { user ? <strong>{`${user.email.substring(0,6)}`}</strong>: 'Guest'}</span>
+            <span className="header-optionLineOne"> Hello, { user?.email.substring(0,6) || 'Guest'}</span>
             <span className="header-optionLineTwo">{user ? 'Sign Out': 'Sign In'}</span>
           </div>
         </Link>
