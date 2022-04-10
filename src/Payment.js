@@ -37,6 +37,7 @@ function Payment() {
         getClientSecret();
     }, [basket])
     
+    console.log('Secret: ', clientSecret);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,6 +53,10 @@ function Payment() {
         setSucceeded(true);
         setError(null);
         setProcessing(false);
+
+        dispatch({
+          type: 'EMPTY_BASKET'
+        });
 
         nav('/orders', {replace: true});
     })
