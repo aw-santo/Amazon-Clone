@@ -66,7 +66,7 @@ function App() {
             </Elements>
             </>} />
 
-        <Route path='/orders' element={<Orders />} />
+        <Route path='/orders' element={<><Header /> <Orders /></>} />
 
       </Routes>
     </div>

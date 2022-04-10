@@ -18,12 +18,24 @@ app.get('/', (req, res) => res.status(200).send("Hello world"));
 
 app.post('/payments/create', async (req, res) => {
     const total = req.query.total;
-
+    // const { name } = req.body;
     console.log('Payment request received...total: ', total);
 
     const paymentIntent = await stripe.paymentIntents.create({
-        amount: total, // subunits of currency
-        currency: "usd"
+        description: 'Software development services',
+        shipping: {
+          name: 'Lorem Ipsum',
+          address: {
+            line1: '510 Townsend St',
+            postal_code: '98140',
+            city: 'San Francisco',
+            state: 'CA',
+            country: 'US',
+          },
+        },
+        amount: total,
+        currency: 'usd',
+        payment_method_types: ['card'], 
     });
 
     res.status(201).send({

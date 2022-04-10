@@ -7,6 +7,7 @@ import { useStateValue } from "./StateProvider";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
 import axios from "./axios";
+import { db } from "./firebase";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
@@ -28,6 +29,13 @@ function Payment() {
         const getClientSecret = async () => {
             const res = await axios({
                 method: 'post',
+                // headers: {
+                //   'Content-Type': 'application/json'
+                //   // 'Content-Type': 'application/x-www-form-urlencoded',
+                // },
+                // body: JSON.stringify({
+                //   name: user?.email.substring(0,6)
+                // }),
                 // stripe accepts total in currencies subunit
                 url: `/payments/create?total=${getBasketTotal(basket) * 100}`
             });
@@ -38,6 +46,8 @@ function Payment() {
     }, [basket])
     
     console.log('Secret: ', clientSecret);
+    console.log('User: ', user);
+    console.log(user?.email.substring(0, 6));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,8 +57,22 @@ function Payment() {
         payment_method: {
             card: elements.getElement(CardElement)
         }
-    }).then(({ paymentIntent }) => {
+    }).then(({ error, paymentIntent }) => {
         // paymentIntent = payment confirmation
+
+        if (error) {
+          console.log(error);
+        }
+        else{
+        db.collection('users')
+          .doc(user?.uid)
+          .collection('orders')
+          .doc(paymentIntent?.id)
+          .set({
+            basket: basket,
+            amount: paymentIntent.amount,
+            created: paymentIntent.created
+          })
 
         setSucceeded(true);
         setError(null);
@@ -58,7 +82,7 @@ function Payment() {
           type: 'EMPTY_BASKET'
         });
 
-        nav('/orders', {replace: true});
+        nav('/orders', {replace: true});}
     })
   };
   const handleChange = (e) => {
